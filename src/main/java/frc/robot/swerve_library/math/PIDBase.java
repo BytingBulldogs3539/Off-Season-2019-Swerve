@@ -206,6 +206,9 @@ public class PIDBase extends SendableBase implements PIDInterface, PIDOutput
         m_D = Kd;
         m_F = Kf;
 
+        m_iMax = kIMax;
+        m_iZone = kIZone;
+
         // Save original source
         m_origSource = source;
 

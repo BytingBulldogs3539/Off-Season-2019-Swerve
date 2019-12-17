@@ -20,6 +20,7 @@ import frc.robot.swerve_library.drive.MaxSwerveEnclosure;
 import frc.robot.swerve_library.drive.SwerveDrive;
 import frc.robot.swerve_library.math.CentricMode;
 import frc.robot.utilities.ByteEncoder;
+import jaci.pathfinder.modifiers.SwerveModifier;
 
 public class DriveSubsystem extends Subsystem
 {
@@ -28,28 +29,31 @@ public class DriveSubsystem extends Subsystem
   CANSparkMax FRDrive = new CANSparkMax(4, MotorType.kBrushless);
   CANSparkMax FRSteer = new CANSparkMax(3, MotorType.kBrushless);
   ByteEncoder FRSteerEncoder = new ByteEncoder(0, 1, 13, false, CounterBase.EncodingType.k1X, 0, false);
-  MaxSwerveEnclosure FRModule = new MaxSwerveEnclosure("FRModule", FRDrive, FRSteer, FRSteerEncoder,
+  public MaxSwerveEnclosure FRModule = new MaxSwerveEnclosure("FRModule", FRDrive, FRSteer, FRSteerEncoder,
       RobotMap.FRSwerveModuleGains, RobotMap.FRSwerveDriveGains, RobotMap.encoderTicksPerRev);
 
   CANSparkMax FLDrive = new CANSparkMax(2, MotorType.kBrushless);
   CANSparkMax FLSteer = new CANSparkMax(1, MotorType.kBrushless);
   ByteEncoder FLSteerEncoder = new ByteEncoder(2, 3, 11, false, CounterBase.EncodingType.k1X, 0, false);
-  MaxSwerveEnclosure FLModule = new MaxSwerveEnclosure("FLModule", FLDrive, FLSteer, FLSteerEncoder,
+  public MaxSwerveEnclosure FLModule = new MaxSwerveEnclosure("FLModule", FLDrive, FLSteer, FLSteerEncoder,
       RobotMap.FLSwerveModuleGains, RobotMap.FRSwerveDriveGains, RobotMap.encoderTicksPerRev);
 
   CANSparkMax BLDrive = new CANSparkMax(7, MotorType.kBrushless);
   CANSparkMax BLSteer = new CANSparkMax(8, MotorType.kBrushless);
   ByteEncoder BLSteerEncoder = new ByteEncoder(4, 5, 12, false, CounterBase.EncodingType.k1X, 0, false);
-  MaxSwerveEnclosure BLModule = new MaxSwerveEnclosure("BLModule", BLDrive, BLSteer, BLSteerEncoder,
+  public MaxSwerveEnclosure BLModule = new MaxSwerveEnclosure("BLModule", BLDrive, BLSteer, BLSteerEncoder,
       RobotMap.BLSwerveModuleGains, RobotMap.FRSwerveDriveGains, RobotMap.encoderTicksPerRev);
 
   CANSparkMax BRDrive = new CANSparkMax(5, MotorType.kBrushless);
   CANSparkMax BRSteer = new CANSparkMax(6, MotorType.kBrushless);
   public ByteEncoder BRSteerEncoder = new ByteEncoder(6, 7, 10, false, CounterBase.EncodingType.k1X, 357.7, true);
-  MaxSwerveEnclosure BRModule = new MaxSwerveEnclosure("BRModule", BRDrive, BRSteer, BRSteerEncoder,
+  public MaxSwerveEnclosure BRModule = new MaxSwerveEnclosure("BRModule", BRDrive, BRSteer, BRSteerEncoder,
       RobotMap.BRSwerveModuleGains, RobotMap.FRSwerveDriveGains, RobotMap.encoderTicksPerRev);
 
-  SwerveDrive swerveDrive = new SwerveDrive(FRModule, FLModule, BLModule, BRModule, RobotMap.Robot_W, RobotMap.Robot_L);
+  public SwerveDrive swerveDrive = new SwerveDrive(FRModule, FLModule, BLModule, BRModule, RobotMap.Robot_W, RobotMap.Robot_L);
+
+  SwerveModifier modifier = new SwerveModifier(null).modify(20, 20, SwerveModifier.Mode.SWERVE_DEFAULT);
+  
 
   public DriveSubsystem()
   {
@@ -94,12 +98,8 @@ public class DriveSubsystem extends Subsystem
     swerveDrive.move(fwd, str, rcw, -ypr[0]);
   }
 
-  public void setAllAngles(double angle)
-  {
-    FRModule.setAngle(angle);
-    FLModule.setAngle(angle);
-    BRModule.setAngle(angle);
-    BLModule.setAngle(angle);
+  public void setAllAngles(double angle) {
+    swerveDrive.setAllAngles(angle);
   }
 
   public void updateSmartDash()
@@ -114,21 +114,6 @@ public class DriveSubsystem extends Subsystem
     SmartDashboard.putNumber("FL Velocity", FLDrive.getEncoder().getVelocity());
     SmartDashboard.putNumber("BL Velocity", BLDrive.getEncoder().getVelocity());
     SmartDashboard.putNumber("BR Velocity", BRDrive.getEncoder().getVelocity());
-
-    // read PID coefficients from SmartDashboard
-    RobotMap.FRSwerveDriveGains.p = SmartDashboard.getNumber("P Gain", 0);
-    RobotMap.FRSwerveDriveGains.i = SmartDashboard.getNumber("I Gain", 0);
-    RobotMap.FRSwerveDriveGains.d = SmartDashboard.getNumber("D Gain", 0);
-    RobotMap.FRSwerveDriveGains.iZone = SmartDashboard.getNumber("I Zone", 0);
-    RobotMap.FRSwerveDriveGains.iMax = SmartDashboard.getNumber("I Max", 0);
-    RobotMap.FRSwerveDriveGains.f = SmartDashboard.getNumber("ff", 0);
-
-    SmartDashboard.putNumber("P Gain", RobotMap.FRSwerveDriveGains.p);
-    SmartDashboard.putNumber("I Gain", RobotMap.FRSwerveDriveGains.i);
-    SmartDashboard.putNumber("D Gain", RobotMap.FRSwerveDriveGains.d);
-    SmartDashboard.putNumber("I Zone", RobotMap.FRSwerveDriveGains.iZone);
-    SmartDashboard.putNumber("I Max", RobotMap.FRSwerveDriveGains.iMax);
-    SmartDashboard.putNumber("ff", RobotMap.FRSwerveDriveGains.f);
   }
 
   public void initializeSmartDashBoard()

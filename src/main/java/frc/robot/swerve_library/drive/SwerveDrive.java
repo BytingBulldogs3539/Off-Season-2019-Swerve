@@ -84,4 +84,11 @@ public class SwerveDrive
     {
         return this.swerveMath.getCentricMode();
     }
+
+    public void setAllAngles(double angle) {
+        swerveEnclosure1.setAngle(angle);
+        swerveEnclosure1.setAngle(angle);
+        swerveEnclosure1.setAngle(angle);
+        swerveEnclosure1.setAngle(angle);
+    }
 }

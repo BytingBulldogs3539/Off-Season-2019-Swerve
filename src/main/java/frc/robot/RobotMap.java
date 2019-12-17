@@ -43,4 +43,6 @@ public class RobotMap
 
   public static int encoderTicksPerRev = 1024;
 
+  public static final double wheelsize = 3.25;
+
 }

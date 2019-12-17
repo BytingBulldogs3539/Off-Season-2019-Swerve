@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.swerve_library.math.CentricMode;
 
 /**
  * An example command. You can replace me with your own command.
@@ -34,6 +35,15 @@ public class DriveCommand extends Command
     double x = 0;
     double y = 0;
     double x1 = 0;
+
+    if(Robot.oi.driver.buttonBR.get() && Robot.driveTrain.swerveDrive.getCentricMode()==CentricMode.FIELD)
+    {
+      Robot.driveTrain.swerveDrive.setCentricMode(CentricMode.ROBOT);
+    }
+    else if(Robot.driveTrain.swerveDrive.getCentricMode() != CentricMode.FIELD && !Robot.oi.driver.buttonBR.get())
+    {
+      Robot.driveTrain.swerveDrive.setCentricMode(CentricMode.FIELD);
+    }
 
     if (Robot.oi.driver.buttonA.get())
     {
