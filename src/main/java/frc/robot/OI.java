@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.VisionTrack;
 import frc.robot.utilities.LogitechF310;
 
 /**
@@ -20,5 +21,7 @@ public class OI
   public OI()
   {
     driver = new LogitechF310(RobotMap.DriverPort);
+
+    driver.buttonX.toggleWhenPressed(new VisionTrack());
   }
 }

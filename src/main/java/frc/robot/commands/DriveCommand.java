@@ -53,17 +53,17 @@ public class DriveCommand extends Command
     {
 
       if (Robot.oi.driver.getLeftStickY() >= .05 || Robot.oi.driver.getLeftStickY() <= -.05)
-        y = Robot.oi.driver.getLeftStickY() * .5;
+        y = Robot.oi.driver.getLeftStickY() * 1.0;
       else
         y = 0;
 
       if (Robot.oi.driver.getLeftStickX() >= .05 || Robot.oi.driver.getLeftStickX() <= -.05)
-        x = Robot.oi.driver.getLeftStickX() * .5;
+        x = Robot.oi.driver.getLeftStickX() * 1.0;
       else
         x = 0;
 
       if (Robot.oi.driver.getRightStickX() >= .05 || Robot.oi.driver.getRightStickX() <= -.05)
-        x1 = Robot.oi.driver.getRightStickX() * .5;
+        x1 = Robot.oi.driver.getRightStickX() * 1.0;
       else
         x1 = 0;
 

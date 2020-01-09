@@ -86,11 +86,20 @@ public abstract class BaseEnclosure implements SwerveEnclosure
     /**
      * Set the angle for the steer motor
      * 
-     * @param abgle
+     * @param angle
      *                  the angle value: -0.5 - counterclockwise 180 degrees, 0 -
      *                  forward 180 degrees, +0.5 - 180 degrees clockwise
      */
-    protected abstract void setAngle(double abgle);
+    protected abstract void setAngle(double angle);
+
+
+    /**
+     * 
+     * @param speed A value between 1 and -1 however the robot will drive that speed
+     *              multipled by max rpm.
+     */
+    protected abstract void setSmartSpeed(double speed);
+
 
     private boolean shouldReverse(double wa, double encoderValue)
     {

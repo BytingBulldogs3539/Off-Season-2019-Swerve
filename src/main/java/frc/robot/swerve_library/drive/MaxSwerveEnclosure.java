@@ -107,6 +107,7 @@ public class MaxSwerveEnclosure extends BaseEnclosure implements SwerveEnclosure
     public void setAngle(double angle)
     {
         SteerPidController.enable();
+        //angle /= 360.0;
         SteerPidController.setSetpoint((reverseSteer ? -1 : 1) * angle * encoderTicksPerRev);
 
     }
